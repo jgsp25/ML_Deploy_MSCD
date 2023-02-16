@@ -1,25 +1,18 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('Checkout'){
-            steps{
-                echo 'Checkout code...'
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
             }
         }
-        stage('Checkout'){
-            steps{
-                sh "tox -e train"
+        stage('Tox Train') {
+            steps {
+                echo "running..."
+                sh "python3 -m tox -c section-05-production-model-package/tox.ini -e test_package"
             }
         }
-        stage('Build'){
-            steps{
-                echo 'Building the code...'
-            }
-        }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying to test...'
-            }
-        }
+
     }
 }
